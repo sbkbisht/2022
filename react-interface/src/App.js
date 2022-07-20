@@ -27,7 +27,20 @@ function App() {
 
       <ul className="divide-y divide-gray-200">
         {appointmentList.map((appointment) => (
-          <AppointmentInfo key={appointment.id} appointment={appointment} />
+          <AppointmentInfo
+            key={appointment.id}
+            appointment={appointment}
+            onDeleteAppointment={
+              // whenever this event trigger we receive appontmentID
+              (appointmentId) =>
+                // we use setAppointmentList method and take the appointmentList and then we filter to remove any items that match the ID that we get from the past the list
+                setAppointmentList(
+                  appointmentList.filter(
+                    (appointment) => appointment.id !== appointmentId
+                  )
+                )
+            }
+          />
         ))}
       </ul>
     </div>
