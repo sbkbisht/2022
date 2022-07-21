@@ -7,15 +7,24 @@ import AppointmentInfo from "./components/AppointmentInfo";
 function App() {
   let [appointmentList, setAppointmentList] = useState([]);
   let [query, setQuery] = useState("");
+  let [sortBy, setSortBy] = useState("petName");
+  let [orderBy, setOrderBy] = useState("asc");
   // now we want to display filter list as per the user search query so we will create new list and not to touch original list
-  const filteredAppointments = appointmentList.filter((item) => {
-    return (
-      // includes method checking query has lowercase compare to data variable
-      item.petName.toLowerCase().includes(query.toLowerCase()) ||
-      item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
-      item.aptNotes.toLowerCase().includes(query.toLowerCase())
-    );
-  });
+  const filteredAppointments = appointmentList
+    .filter((item) => {
+      return (
+        // includes method checking query has lowercase compare to data variable
+        item.petName.toLowerCase().includes(query.toLowerCase()) ||
+        item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+        item.aptNotes.toLowerCase().includes(query.toLowerCase())
+      );
+    })
+    .sort((a, b) => {
+      let order = (orderBy === 'asc')? 1 : -1;
+     return (
+      a[orderBy].toLowerCase() < b[sortBy].toLowerCase() ? -1 * order : 1 * order
+     )
+    });
 
   // get our data, create function called fetchData and then going to use useCallback hook, inside callback use fetch api which allow to retrieve an element either from a local file or from server
   const fetchData = useCallback(() => {
