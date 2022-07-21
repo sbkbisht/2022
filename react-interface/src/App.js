@@ -20,10 +20,10 @@ function App() {
       );
     })
     .sort((a, b) => {
-      let order = (orderBy === 'asc')? 1 : -1;
-     return (
-      a[orderBy].toLowerCase() < b[sortBy].toLowerCase() ? -1 * order : 1 * order
-     )
+      let order = orderBy === "asc" ? 1 : -1;
+      return a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+        ? -1 * order
+        : 1 * order;
     });
 
   // get our data, create function called fetchData and then going to use useCallback hook, inside callback use fetch api which allow to retrieve an element either from a local file or from server
