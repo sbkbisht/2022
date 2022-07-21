@@ -6,6 +6,17 @@ import AddAppointment from "./components/AddAppointment";
 import AppointmentInfo from "./components/AppointmentInfo";
 function App() {
   let [appointmentList, setAppointmentList] = useState([]);
+  let [query, setQuery] = useState("");
+  // now we want to display filter list as per the user search query so we will create new list and not to touch original list
+  const filteredAppointments = appointmentList.filter((item) => {
+    return (
+      // includes method checking query has lowercase compare to data variable
+      item.petName.toLowerCase().includes(query.toLowerCase()) ||
+      item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+      item.aptNotes.toLowerCase().includes(query.toLowerCase())
+    );
+  });
+
   // get our data, create function called fetchData and then going to use useCallback hook, inside callback use fetch api which allow to retrieve an element either from a local file or from server
   const fetchData = useCallback(() => {
     fetch("./data.json") // it looks like I'm asking for the data to be in the same folder as my current file, but it really is not. it's instead in the public folder. Now, as i mentioned anything in the public folder will just appear in the same level as your application once it has been pushed up to server
@@ -23,10 +34,13 @@ function App() {
         Your Appointment
       </h1>
       <AddAppointment />
-      <Search />
+      <Search query={query} onQueryChange={(myQuery) => setQuery(myQuery)} />
 
       <ul className="divide-y divide-gray-200">
+        {/* now instead of appointmentList we will use filteredAppointments 
         {appointmentList.map((appointment) => (
+          */}
+        {filteredAppointments.map((appointment) => (
           <AppointmentInfo
             key={appointment.id}
             appointment={appointment}
