@@ -38,11 +38,22 @@ function App() {
   }, [fetchData]); // if data change in some reason then keep track and update our application automatically
   return (
     <div className="App container mx-auto mt-3 font-thin">
-      <h1 class="text-5xl mb-3">
+      <h1 className="text-5xl mb-3">
         <BiCalendar className="inline-block text-red-400 align-top" />
         Your Appointment
       </h1>
-      <AddAppointment />
+      {/* taking current appointment and then push new appointment in the list
+      [...appointmentList, myAppointment]
+       */}
+      <AddAppointment
+        onSendAppointment={(myAppointment) =>
+          setAppointmentList([...appointmentList, myAppointment])
+        }
+        lastId={appointmentList.reduce(
+          (max, item) => (Number(item.id) > max ? Number(item.id) : max),
+          0
+        )}
+      />
       <Search
         query={query}
         onQueryChange={(myQuery) => setQuery(myQuery)}
